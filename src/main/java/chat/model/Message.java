@@ -1,4 +1,4 @@
-package chat.domain;
+package chat.model;
 
 import javax.persistence.*;
 
@@ -10,6 +10,27 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String text;
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author")
+    private MyUser author;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "room_id")
+    private Room room;
+
+    public MyUser getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(MyUser author) {
+        this.author = author;
+    }
+
+    public String getAuthorName() {
+        return author != null ? author.getUsername() : "guest";
+    }
 
     public Message() {
     }
@@ -36,6 +57,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{ id = "  + " text: " + text + " }";
+        return "Message{ id = " + " text: "
+                + text + "  }";
     }
 }
